@@ -35,7 +35,8 @@ const maskId = (s: DBShow) => ({
 const maskIds = (ss: DBShow[] | DBPackageShow) => {
   if (hasOwnProperty(ss, 'networks')) {
     const dbShows: DBShow[] = []
-    ss.networks.forEach(({ id, title, shows }) => {
+
+    ;(ss as DBPackageShow).networks.forEach(({ id, title, shows }) => {
       dbShows.push(
         ...shows.map((show) => ({
           ...show,
