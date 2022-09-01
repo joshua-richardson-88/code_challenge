@@ -16,9 +16,6 @@ const updateShowInput = z
     (data) => !!data.title || !!data.imdbRating || !!data.network,
     'At least one field must be present to update',
   )
-const deleteShowInput = z.object({
-  id: z.string(),
-})
 const getShowInput = z.object({
   network_id: z.string().optional(),
   package_id: z.string().optional(),
@@ -27,7 +24,6 @@ const getShowInput = z.object({
 
 export type TShow = z.infer<typeof showSchema>
 export type TUpdateInput = z.infer<typeof updateShowInput>
-export type TDeleteInput = z.infer<typeof deleteShowInput>
 export type TGetInput = z.infer<typeof getShowInput>
 export type DBShow = {
   id: string
@@ -50,5 +46,5 @@ export type DBPackageShow = {
   }[]
 }
 
-export { deleteShowInput, getShowInput, updateShowInput }
+export { getShowInput, updateShowInput }
 export default showSchema

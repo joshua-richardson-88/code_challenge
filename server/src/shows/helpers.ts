@@ -1,5 +1,5 @@
 import { pipe } from 'fp-ts/lib/function'
-import { chain, chainW, map, right, tryCatch } from 'fp-ts/lib/TaskEither'
+import { chain, chainW, left, map, right, tryCatch } from 'fp-ts/lib/TaskEither'
 import { PrismaClient } from '@prisma/client'
 
 import validator from '../utils/validateRequest'
@@ -8,18 +8,11 @@ import errorMap from '../utils/error-map'
 import hasOwnProperty from '../utils/hasOwnProperty'
 import showSchema, {
   DBPackageShow,
-  deleteShowInput,
   getShowInput,
   updateShowInput,
 } from './model'
 
-import type {
-  DBShow,
-  TDeleteInput,
-  TGetInput,
-  TShow,
-  TUpdateInput,
-} from './model'
+import type { DBShow, TGetInput, TShow, TUpdateInput } from './model'
 
 const prisma = new PrismaClient()
 
@@ -68,7 +61,10 @@ const selectFromDB = {
 
 const validatePost = validator(showSchema)
 const validatePut = validator(updateShowInput)
-const validateDelete = validator(deleteShowInput)
+const validateDelete = (id: unknown) => {
+  if (typeof id === 'string') return right(decode(id))
+  return left(errorMap('id must exist', 400))
+}
 const validateGet = validator(getShowInput)
 
 const saveToDB = async ({ title, network, imdbRating }: TShow) =>
@@ -108,7 +104,7 @@ const updateDB = async ({ id, title, network, imdbRating }: TUpdateInput) => {
     select: selectFromDB,
   })
 }
-const deleteFromDB = async ({ id }: TDeleteInput) =>
+const deleteFromDB = async (id: string) =>
   await prisma.show.delete({ where: { id } })
 const getFromDB = async ({ network_id, package_id, show_id }: TGetInput) => {
   if (show_id != null) {

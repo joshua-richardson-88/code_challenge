@@ -18,6 +18,7 @@ const seedShows = () => {
         },
       },
     })
+    console.log('did: ', title)
   })
 }
 const seedPackages = () => {

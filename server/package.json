@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "generate": "npx prisma generate",
-    "seed": "ts-node prisma/seed.ts",
+    "seed": "npx prisma migrate reset && ts-node prisma/seed.ts",
     "dev": "NODE_ENV=development nodemon ./src/index.ts",
     "build": "npx tsc",
     "start": "NODE_ENV=production node ./dist/src/index.js"
