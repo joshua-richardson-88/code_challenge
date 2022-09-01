@@ -1,10 +1,9 @@
-import express, { response } from 'express'
+import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import { env } from './config'
 import errorHandler, { AppError } from './error-handlers'
 
-import type { Request, Response, NextFunction } from 'express'
 import showRouter from './shows'
 
 const app = express()
