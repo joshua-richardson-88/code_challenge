@@ -12,22 +12,22 @@ datasource db {
 
 model Network {
   id        String @id @default(cuid())
-  title     String 
+  title     String @unique
   shows     Show[]
   packages  Package[]
 }
 
 model Package {
   id        String @id @default(cuid())
-  name      String
-  price     Int
+  name      String @unique
+  price     Float
   networks  Network[]
 }
 
 model Show {
   id          String  @id @default(cuid())
-  title       String
-  imdbRating  Int
+  title       String @unique
+  imdbRating  Float
   networkId   String
   network     Network @relation(fields: [networkId], references: [id], onDelete: Cascade)
 }
