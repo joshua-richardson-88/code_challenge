@@ -9,7 +9,7 @@ const serverSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'test', 'production'])
     .default('development'),
-  PORT: z.number().default(8080),
+  PORT: z.string().default('8080'),
 })
 export const formatErrors = (
   errors: ZodFormattedError<Map<string, string>, string>,
@@ -31,4 +31,4 @@ if (!_serverEnv.success) {
   throw new Error('Invalid environment variables')
 }
 
-export const env = { ..._serverEnv.data }
+export const env = { ..._serverEnv.data, PORT: +_serverEnv.data.PORT }

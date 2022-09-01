@@ -4,7 +4,10 @@
   "private": true,
   "scripts": {
     "generate": "npx prisma generate",
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts",
+    "dev": "NODE_ENV=development ts-node ./src/server.ts",
+    "build": "npx tsc",
+    "start": "NODE_ENV=production node ./dist/src/server.js"
   },
   "dependencies": {
     "@prisma/client": "^4.3.0",
