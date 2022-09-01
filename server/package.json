@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^4.3.0"
