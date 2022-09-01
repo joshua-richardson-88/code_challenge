@@ -126,26 +126,31 @@ const getFromDB = async ({ network_id, package_id, show_id }: TGetInput) => {
       select: selectFromDB,
     })
   }
-  const dbPackage = await prisma.package.findUnique({
-    where: { id: package_id as string },
-    select: {
-      networks: {
-        select: {
-          id: true,
-          title: true,
-          shows: {
-            select: {
-              id: true,
-              title: true,
-              imdbRating: true,
+  if (package_id != null) {
+    const dbPackage = await prisma.package.findUnique({
+      where: { id: package_id as string },
+      select: {
+        networks: {
+          select: {
+            id: true,
+            title: true,
+            shows: {
+              select: {
+                id: true,
+                title: true,
+                imdbRating: true,
+              },
             },
           },
         },
       },
-    },
+    })
+    if (dbPackage == null) throw new Error('Package does not exist')
+    return dbPackage
+  }
+  return await prisma.show.findMany({
+    select: selectFromDB,
   })
-  if (dbPackage == null) throw new Error('Package does not exist')
-  return dbPackage
 }
 
 const createShow = (d: unknown) =>

@@ -19,20 +19,11 @@ const updateShowInput = z
 const deleteShowInput = z.object({
   id: z.string(),
 })
-const getShowInput = z
-  .object({
-    network_id: z.string().optional(),
-    package_id: z.string().optional(),
-    show_id: z.string().optional(),
-  })
-  .refine((data) => {
-    let count = 0
-    if (data.network_id != null) count++
-    if (data.package_id != null) count++
-    if (data.show_id != null) count++
-
-    return count !== 1
-  }, 'Exactly one field must be present to get shows')
+const getShowInput = z.object({
+  network_id: z.string().optional(),
+  package_id: z.string().optional(),
+  show_id: z.string().optional(),
+})
 
 export type TShow = z.infer<typeof showSchema>
 export type TUpdateInput = z.infer<typeof updateShowInput>
