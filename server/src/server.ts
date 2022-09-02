@@ -5,6 +5,7 @@ import { env } from './config'
 import errorHandler, { AppError } from './error-handlers'
 
 import showRouter from './shows'
+import packageRouter from './packages'
 
 const app = express()
 
@@ -31,6 +32,7 @@ app.use(express.json())
       GET: (id?: string, title?: string) => Network
 */
 app.use('/shows', showRouter)
+app.use('/packages', packageRouter)
 
 app.all('*', (req, _res, next) =>
   next(new AppError(`Can't find ${req.originalUrl} on this server`, 404)),
