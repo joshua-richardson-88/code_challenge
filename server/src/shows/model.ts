@@ -19,7 +19,6 @@ const updateShowInput = z
 const getShowInput = z.object({
   network_id: z.string().optional(),
   package_id: z.string().optional(),
-  show_id: z.string().optional(),
 })
 
 export type TShow = z.infer<typeof showSchema>

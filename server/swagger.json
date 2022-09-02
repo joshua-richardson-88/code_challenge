@@ -1,0 +1,475 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Television - OpenAPI 3.0",
+    "description": "This is a television show and package server.",
+    "contact": {
+      "email": "josh@cursedtale.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "shows",
+      "description": "All the shows!"
+    },
+    {
+      "name": "packages",
+      "description": "Only the best tv packages around"
+    }
+  ],
+  "paths": {
+    "/shows": {
+      "get": {
+        "tags": ["shows"],
+        "summary": "Get all shows",
+        "description": "List all shows, with optional filters",
+        "operationId": "getShowsWithFilters",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "network_id",
+            "description": "filter shows based on a given network",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "package_id",
+            "description": "filter shows based on a given package",
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Show"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["shows"],
+        "summary": "Add a new show",
+        "description": "Add a new show",
+        "operationId": "addShow",
+        "requestBody": {
+          "description": "Create a new show",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddShowInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Show"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["shows"],
+        "summary": "Update an existing show",
+        "description": "Update an existing show by Id",
+        "operationId": "updateShow",
+        "requestBody": {
+          "description": "Update an existent show",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShowInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Show"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shows/{id}": {
+      "get": {
+        "tags": ["shows"],
+        "summary": "find show by ID",
+        "description": "Returns a single show",
+        "operationId": "getShowById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of show to return",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Show"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["shows"],
+        "summary": "Delete a show",
+        "description": "delete a show",
+        "operationId": "deleteShow",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of show to delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      }
+    },
+    "/packages": {
+      "get": {
+        "tags": ["packages"],
+        "summary": "Get all shows",
+        "description": "List all packages",
+        "operationId": "getPackages",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Package"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["packages"],
+        "summary": "Add a new package",
+        "description": "Add a new package",
+        "operationId": "addPackage",
+        "requestBody": {
+          "description": "Create a new package",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddPackageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["packages"],
+        "summary": "Update an existing package",
+        "description": "Update an existing package by Id",
+        "operationId": "updatePackage",
+        "requestBody": {
+          "description": "Update an existent package",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePackageInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/packages/{id}": {
+      "get": {
+        "tags": ["packages"],
+        "summary": "find package by ID",
+        "description": "Returns a single package",
+        "operationId": "getPackageById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of package to return",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["packages"],
+        "summary": "Delete a package",
+        "description": "delete a package",
+        "operationId": "deletePackage",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of show to delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Id": {
+        "type": "string",
+        "example": "2NQgwqb3E6uebvJo92NksxLypvyjENcgx29oyVRxsMq"
+      },
+      "Network": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "example": "Disney+"
+          }
+        }
+      },
+      "Show": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "example": "The Orville"
+          },
+          "imdbRating": {
+            "type": "number",
+            "example": 7.8
+          },
+          "network": {
+            "$ref": "#/components/schemas/Network"
+          }
+        }
+      },
+      "UpdateShowInput": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "title": {
+            "type": "string",
+            "example": "Dexter"
+          },
+          "imdbRating": {
+            "type": "number",
+            "example": 6.9
+          },
+          "network": {
+            "type": "string",
+            "example": "Fox"
+          }
+        },
+        "required": ["id"]
+      },
+      "AddShowInput": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "Loki"
+          },
+          "imdbRating": {
+            "type": "number",
+            "example": 5.5
+          },
+          "network": {
+            "type": "string",
+            "example": "Disney+"
+          }
+        },
+        "required": ["title", "imdbRating", "network"]
+      },
+      "Package": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "2NQgwqb3E6uebvJo92NksxLypvyjENcgx29oyVRxsMq"
+          },
+          "name": {
+            "type": "string",
+            "example": "Platinum"
+          },
+          "price": {
+            "type": "number",
+            "example": 56.99
+          },
+          "networks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Network"
+            }
+          }
+        }
+      },
+      "UpdatePackageInput": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "name": {
+            "type": "string",
+            "example": "Basic"
+          },
+          "price": {
+            "type": "number",
+            "example": 32.99
+          },
+          "networks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "Fox"
+            }
+          }
+        },
+        "required": ["id"]
+      },
+      "AddPackageInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Deluxe"
+          },
+          "imdbRating": {
+            "type": "number",
+            "example": 69.99
+          },
+          "networks": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "Disney+"
+            }
+          }
+        },
+        "required": ["title", "imdbRating", "network"]
+      }
+    }
+  }
+}

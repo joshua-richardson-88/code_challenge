@@ -61,11 +61,11 @@ const selectFromDB = {
 
 const validatePost = validator(showSchema)
 const validatePut = validator(updateShowInput)
-const validateDelete = (id: unknown) => {
+const validateId = (id: unknown) => {
   if (typeof id === 'string') return right(decode(id))
   return left(errorMap('id must exist', 400))
 }
-const validateGet = validator(getShowInput)
+const validateQuery = validator(getShowInput)
 
 const saveToDB = async ({ title, network, imdbRating }: TShow) =>
   await prisma.show.create({
@@ -106,16 +106,7 @@ const updateDB = async ({ id, title, network, imdbRating }: TUpdateInput) => {
 }
 const deleteFromDB = async (id: string) =>
   await prisma.show.delete({ where: { id } })
-const getFromDB = async ({ network_id, package_id, show_id }: TGetInput) => {
-  if (show_id != null) {
-    const show = await prisma.show.findUnique({
-      where: { id: show_id },
-      select: selectFromDB,
-    })
-
-    if (show == null) throw new Error('Show does not exist')
-    return [show]
-  }
+const getAllFromDB = async ({ network_id, package_id }: TGetInput) => {
   if (network_id != null) {
     return await prisma.show.findMany({
       where: { networkId: network_id },
@@ -147,6 +138,15 @@ const getFromDB = async ({ network_id, package_id, show_id }: TGetInput) => {
   return await prisma.show.findMany({
     select: selectFromDB,
   })
+}
+const getFromDB = async (id: string) => {
+  const show = await prisma.show.findUnique({
+    where: { id },
+    select: selectFromDB,
+  })
+
+  if (show == null) throw new Error('Show does not exist')
+  return show
 }
 
 const createShow = (d: unknown) =>
@@ -180,7 +180,7 @@ const updateShow = (d: unknown) =>
 const deleteShow = (d: unknown) =>
   pipe(
     right(d),
-    chain(validateDelete),
+    chain(validateId),
     chainW((body) =>
       tryCatch(
         () => deleteFromDB(body),
@@ -191,7 +191,7 @@ const deleteShow = (d: unknown) =>
 const getShows = (d: unknown) =>
   pipe(
     right(d),
-    chain(validateGet),
+    chain(validateQuery),
     map((body) => ({
       network_id:
         typeof body.network_id === 'string'
@@ -201,16 +201,25 @@ const getShows = (d: unknown) =>
         typeof body.package_id === 'string'
           ? decode(body.package_id)
           : undefined,
-      show_id:
-        typeof body.show_id === 'string' ? decode(body.show_id) : undefined,
     })),
     chainW((body) =>
       tryCatch(
-        () => getFromDB(body),
+        () => getAllFromDB(body),
         () => errorMap('Database failure', 500),
       ),
     ),
     map((body) => maskIds(body)),
   )
+const getShow = (d: unknown) =>
+  pipe(
+    right(d),
+    chain(validateId),
+    map((body) =>
+      tryCatch(
+        () => getFromDB(body),
+        () => errorMap('Database failure', 500),
+      ),
+    ),
+  )
 
-export { createShow, deleteShow, getShows, updateShow }
+export { createShow, deleteShow, getShow, getShows, updateShow }

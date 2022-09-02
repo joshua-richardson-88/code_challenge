@@ -6,7 +6,13 @@ import { of } from 'fp-ts/lib/Task'
 
 import { AppError } from '../error-handlers'
 import hasOwnProperty from '../utils/hasOwnProperty'
-import { createShow, deleteShow, getShows, updateShow } from './helpers'
+import {
+  createShow,
+  deleteShow,
+  getShow,
+  getShows,
+  updateShow,
+} from './helpers'
 
 import type { ErrorMap } from '../utils/error-map'
 
@@ -33,6 +39,7 @@ showRouter.delete('/:id', async (req: Request, res: Response) => {
     throw new AppError((show as ErrorMap).error, (show as ErrorMap).code)
   res.sendStatus(201)
 })
+
 showRouter.get('/', async (req: Request, res: Response) => {
   const shows = await pipe(getShows(req.query), foldW(of, of))()
 
@@ -40,12 +47,13 @@ showRouter.get('/', async (req: Request, res: Response) => {
     throw new AppError((shows as ErrorMap).error, (shows as ErrorMap).code)
   res.status(200).json(shows)
 })
-showRouter.get('/:id', async (req: Request, res: Response) => {
-  const shows = await pipe(getShows(req.params.id), foldW(of, of))()
 
-  if (hasOwnProperty(shows, 'code'))
-    throw new AppError((shows as ErrorMap).error, (shows as ErrorMap).code)
-  res.status(200).json(shows)
+showRouter.get('/:id', async (req: Request, res: Response) => {
+  const show = await pipe(getShow(req.params.id), foldW(of, of))()
+
+  if (hasOwnProperty(show, 'code'))
+    throw new AppError((show as ErrorMap).error, (show as ErrorMap).code)
+  res.status(200).json(show)
 })
 
 export default showRouter
