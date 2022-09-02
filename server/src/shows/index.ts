@@ -40,5 +40,12 @@ showRouter.get('/', async (req: Request, res: Response) => {
     throw new AppError((shows as ErrorMap).error, (shows as ErrorMap).code)
   res.status(200).json(shows)
 })
+showRouter.get('/:id', async (req: Request, res: Response) => {
+  const shows = await pipe(getShows(req.params.id), foldW(of, of))()
+
+  if (hasOwnProperty(shows, 'code'))
+    throw new AppError((shows as ErrorMap).error, (shows as ErrorMap).code)
+  res.status(200).json(shows)
+})
 
 export default showRouter

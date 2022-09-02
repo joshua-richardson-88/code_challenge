@@ -1,0 +1,51 @@
+# Get all shows
+GET http://localhost:8080/shows
+
+###
+
+# Get show by id
+GET http://localhost:8080/shows/?show_id=2NQgwqb3E6uebvJo92NksxLypvyjENcgx29oyVRxsMq
+
+###
+
+# Get show by network
+
+GET http://localhost:8080/shows/?network_id=KJBokgVZLxIWXq2ak9gkF5agXE14okfWPNe3Y8bnTPZ
+
+###
+
+# Get shows by package
+
+GET http://localhost:8080/shows/?package_id=rOyx8kKlMEfzwMoY84xwtEweVaLeQXcM2MOOwY3eH2g
+
+###
+
+# Create a new show
+POST http://localhost:8080/shows
+Content-Type: application/json
+
+{
+  "title": "Loki",
+  "imdbRating": 5.4,
+  "network": "Disney"
+}
+
+###
+
+# Update a show
+PUT http://localhost:8080/shows 
+Content-Type: application/json 
+
+{
+  "id": "ZvgD3b84yjH5ZxR9y4nvs39qDXPK9yfQXD6Y8YZ4SDy",
+  "imdbRating": 6.9
+}
+
+###
+
+# Delete a show
+DELETE http://localhost:8080/shows/WWk6wJqVjLUaBvgEmbr3fPoE5vl1aei3NRKJamrMSWe
+
+###
+
+GET http://localhost:8080/packages

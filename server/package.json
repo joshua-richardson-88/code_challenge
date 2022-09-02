@@ -7,7 +7,7 @@
     "seed": "npx prisma migrate reset && ts-node prisma/seed.ts",
     "dev": "NODE_ENV=development nodemon ./src/index.ts",
     "build": "npx tsc",
-    "start": "NODE_ENV=production node ./dist/src/index.js"
+    "start": "NODE_ENV=production yarn build && node ./dist/src/index.js"
   },
   "dependencies": {
     "@prisma/client": "^4.3.0",

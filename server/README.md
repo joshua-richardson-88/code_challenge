@@ -1,1 +1,0 @@
-# Charter Code Challenge
