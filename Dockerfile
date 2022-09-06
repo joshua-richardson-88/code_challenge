@@ -15,6 +15,9 @@ COPY . .
 RUN npm run generate
 RUN npm run seed
 
+ARG DATABASE_URL
+ARG PORT
+
 EXPOSE 80
 
 CMD ["node", "dist/index.js"]
