@@ -14,8 +14,8 @@ RUN npm install
 COPY . .
 
 RUN npm run generate
+RUN npm run build
 
-
-EXPOSE 80
+EXPOSE 8080
 
 CMD ["node", "dist/index.js"]
