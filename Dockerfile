@@ -1,5 +1,5 @@
 FROM node:16
-ARG EnvironmentVariable
+ARG DATABASE_URL
 
 # Create app directory
 WORKDIR /usr/src/app 
