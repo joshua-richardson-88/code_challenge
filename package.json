@@ -6,7 +6,7 @@
     "build": "tsc",
     "generate": "npx prisma generate",
     "dev": "NODE_ENV=development nodemon ./src/index.ts",
-    "seed": "npx prisma migrate deploy && ts-node prisma/seed.ts",
+    "seed": "npx prisma migrate reset && ts-node prisma/seed.ts",
     "start": "NODE_ENV=production yarn build && node ./dist/src/index.js"
   },
   "dependencies": {

@@ -14,7 +14,6 @@ RUN npm install
 COPY . .
 
 RUN npm run generate
-RUN npm run seed
 
 
 EXPOSE 80
