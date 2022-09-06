@@ -17,4 +17,4 @@ RUN npm run seed
 
 EXPOSE 80
 
-CMD["node", "dist/index.js"]
+CMD ["node", "dist/index.js"]
