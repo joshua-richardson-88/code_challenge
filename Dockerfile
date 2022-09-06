@@ -1,4 +1,5 @@
 FROM node:16
+ARG EnvironmentVariable
 
 # Create app directory
 WORKDIR /usr/src/app 
@@ -15,7 +16,6 @@ COPY . .
 RUN npm run generate
 RUN npm run seed
 
-ARG EnvironmentVariable
 
 EXPOSE 80
 
