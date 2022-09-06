@@ -1,20 +1,21 @@
-FROM node:16
+FROM node:16 as ts-compiler
 ARG DATABASE_URL
 
 # Create app directory
-WORKDIR /usr/src/app 
+WORKDIR /usr/app
 
 # Install app dependencies
 COPY package*.json ./
+COPY tsconfig*.json ./
 
 # RUN npm install
 RUN npm install
 
 # Bundle app source 
-COPY . .
+COPY . ./
 
-RUN npm run generate
 RUN npm run build
+RUN npm run generate
 
 EXPOSE 8080
 

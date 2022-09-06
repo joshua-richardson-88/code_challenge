@@ -7,7 +7,7 @@ import { env } from './config'
 import errorHandler, { AppError } from './error-handlers'
 import showRouter from './shows'
 import packageRouter from './packages'
-import swaggerDoc from '../swagger.json'
+import swaggerDoc from './swagger.json'
 
 const app = express()
 
