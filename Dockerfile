@@ -15,8 +15,7 @@ COPY . .
 RUN npm run generate
 RUN npm run seed
 
-ARG DATABASE_URL
-ARG PORT
+ARG EnvironmentVariable
 
 EXPOSE 80
 
